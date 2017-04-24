@@ -8,17 +8,21 @@ document.body.querySelector('.setup-similar').classList.remove('hidden');
 
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content;
+
 var WIZARDS_FIRSTNAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 var WIZARDS_LASTNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
+var FirstNameRandom = [];
+var LastNameRandom = [];
 var FullName = [];
-var FirstName = [];
-var LastName = [];
 
-for (var j = 0; j < WIZARDS_FIRSTNAMES.length; j++) {
-  FirstName[j] = (Math.round(Math.random() * WIZARDS_FIRSTNAMES.length));
-  LastName[j] = (Math.round(Math.random() * WIZARDS_LASTNAMES.length));
-  FullName[j] = WIZARDS_FIRSTNAMES[FirstName[j]] + ' ' + WIZARDS_LASTNAMES[LastName[j]];
-}
+var getRandom = function (arrFirstNames, arrLastNames) {
+  for (var j = 0; j < arrFirstNames.length; j++) {
+    FirstNameRandom[j] = (Math.round(Math.random() * arrFirstNames.length));
+    LastNameRandom[j] = (Math.round(Math.random() * arrLastNames.length));
+    FullName[j] = arrFirstNames[FirstNameRandom[j]] + ' ' + arrLastNames[LastNameRandom[j]];
+  }
+};
+getRandom(WIZARDS_FIRSTNAMES, WIZARDS_LASTNAMES);
 
 var wizards = [
   {
@@ -39,7 +43,7 @@ var wizards = [
   {
     name: FullName[3],
     coatColor: 'rgb(56, 159, 117)',
-    eyesColor: 'yellow'
+    eyesColor: 'green'
   }
 ];
 
