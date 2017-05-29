@@ -1,11 +1,23 @@
 'use strict';
 
 var fragment = document.createDocumentFragment();
+var coatOfColor = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)'];
+var colorEyes = ['black', 'red', 'blue', 'yellow', 'green'];
+var colorFireball = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
+var randomNumber;
 var userModal = document.querySelector('.setup');
-userModal.classList.remove('hidden');
+var setupOpen = document.querySelector('.setup-open');
+var setupCLose = userModal.querySelector('.setup-close');
+var setupIcon = document.querySelector('.setup-open-icon');
+var setupUserName = userModal.querySelector('.setup-user-name');
+var wizardBlock = document.querySelector('.wizard');
+var wizardCoat = wizardBlock.querySelector('.wizard-coat');
+var wizardEyes = wizardBlock.querySelector('.wizard-eyes');
+var setupFireball = document.querySelector('.setup-fireball-wrap');
 
 document.body.querySelector('.setup-similar').classList.remove('hidden');
 
+// Данные для генерации магов
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content;
 
@@ -15,6 +27,7 @@ var FirstNameRandom = [];
 var LastNameRandom = [];
 var FullName = [];
 
+// Генерация имени магов
 var getRandom = function (arrFirstNames, arrLastNames) {
   for (var j = 0; j < arrFirstNames.length; j++) {
     FirstNameRandom[j] = (Math.round(Math.random() * arrFirstNames.length));
@@ -59,3 +72,72 @@ for (var i = 0; i < wizards.length; i++) {
   fragment.appendChild(renderWizard(wizards[i]));
 }
 similarListElement.appendChild(fragment);
+
+// Обработчик - при нажатии на Esc попап закрывается
+var popupEscHandlier = function (evt) {
+  if (evt.keyCode === 27) {
+    closePopup();
+  }
+};
+
+var openPopup = function () {
+  userModal.classList.remove('hidden');
+  document.addEventListener('keydown', popupEscHandlier);
+};
+
+// При закрытии попата убираем обработчик нажатия на esc
+var closePopup = function () {
+  userModal.classList.add('hidden');
+  document.removeEventListener('keydown', popupEscHandlier);
+};
+
+setupOpen.addEventListener('click', function () {
+  openPopup();
+
+  // закрываем попап нажатием enter на крестик
+  setupCLose.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 13) {
+      closePopup();
+    }
+  });
+});
+
+// закрываем попап мышкой
+setupCLose.addEventListener('click', function () {
+  closePopup();
+});
+
+// открываем попап нажав на иконку enter на иконке пользователя
+setupIcon.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    openPopup();
+  }
+});
+
+// При нажатии esc при фокусе в поле ввода, который находится в попапе, попап не
+setupUserName.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 27) {
+    evt.stopPropagation();
+  }
+});
+
+// Рандомное число по длине массива
+var getRandomNumber = function (arr) {
+  randomNumber = Math.round((Math.random() * arr.length - 1));
+  return arr[randomNumber];
+};
+
+// меняем цвет плаща по нажатию мышкой на него
+wizardCoat.addEventListener('click', function () {
+  wizardCoat.style.fill = getRandomNumber(coatOfColor);
+});
+
+// меняем цвет глаз по нажатию мышкой на них
+wizardEyes.addEventListener('click', function () {
+  wizardEyes.style.fill = getRandomNumber(colorEyes);
+});
+
+// меняем цвет фаербола по нажатию мышкой на него
+setupFireball.addEventListener('click', function () {
+  setupFireball.style.background = getRandomNumber(colorFireball);
+});
