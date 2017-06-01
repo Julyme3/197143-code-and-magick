@@ -10,6 +10,7 @@ var setupOpen = document.querySelector('.setup-open');
 var setupCLose = userModal.querySelector('.setup-close');
 var setupIcon = document.querySelector('.setup-open-icon');
 var setupUserName = userModal.querySelector('.setup-user-name');
+var setupSubmit = document.querySelector('.setup-submit');
 var wizardBlock = document.querySelector('.wizard');
 var wizardCoat = wizardBlock.querySelector('.wizard-coat');
 var wizardEyes = wizardBlock.querySelector('.wizard-eyes');
@@ -91,15 +92,17 @@ var closePopup = function () {
   document.removeEventListener('keydown', popupEscHandlier);
 };
 
+var isEntActivation = function (evt) {
+  if (evt.keyCode === 13) {
+    closePopup();
+  }
+};
+
 setupOpen.addEventListener('click', function () {
   openPopup();
 
   // закрываем попап нажатием enter на крестик
-  setupCLose.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13) {
-      closePopup();
-    }
-  });
+  setupCLose.addEventListener('keydown', isEntActivation);
 });
 
 // закрываем попап мышкой
@@ -111,10 +114,18 @@ setupCLose.addEventListener('click', function () {
 setupIcon.addEventListener('keydown', function (evt) {
   if (evt.keyCode === 13) {
     openPopup();
-  }
+  };
+
+  // жмем enter на крестике - закрываем попап
+  setupCLose.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 13) {
+      closePopup();
+    }
+  });
+
 });
 
-// При нажатии esc при фокусе в поле ввода, который находится в попапе, попап не
+// При нажатии esc при фокусе в поле ввода, который находится в попапе, попап не закрывается
 setupUserName.addEventListener('keydown', function (evt) {
   if (evt.keyCode === 27) {
     evt.stopPropagation();
